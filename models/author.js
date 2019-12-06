@@ -1,7 +1,7 @@
 'use strict';
 
-const moment = require('moment');
 const mongoose = require('mongoose');
+const lifespanDateFormater = require('../utils/lifespanDateFormater');
 
 const Schema = mongoose.Schema;
 
@@ -15,7 +15,7 @@ const AuthorSchema = new Schema({
 AuthorSchema
   .virtual('name')
   .get(function () {
-    return this.lastName + ', ' + this.firstName;
+    return this.firstName + ' ' + this.lastName;
   });
 
 AuthorSchema
@@ -27,26 +27,19 @@ AuthorSchema
 AuthorSchema
   .virtual('lifespanFormatted')
   .get(function () {
-    return `${this.dateOfBirth ? this.dateOfDeath ?
-      `${moment(this.dateOfBirth).format('MMMM Do, YYYY')} -\
-       ${moment(this.dateOfDeath).format('MMMM Do, YYYY')}` :
-      `${moment(this.dateOfBirth).format('MMMM Do, YYYY')} -` : '-'}`;
+    return lifespanDateFormater.lifeSpanToString(this.dateOfBirth, this.dateOfDeath);
   });
 
 AuthorSchema
   .virtual('dateOfBirthFormatted')
   .get(function () {
-    console.log(moment(this.dateOfBirth).format('YYYY-MM-DD'));
-    return this.dateOfBirth ?
-      moment(this.dateOfBirth).format('YYYY-MM-DD') : '';
+    return lifespanDateFormater.dateToString(this.dateOfBirth);
   });
 
 AuthorSchema
   .virtual('dateOfDeathFormatted')
   .get(function () {
-    console.log(moment(this.dateOfBirth).format('YYYY-MM-DD'));
-    return this.dateOfDeath ?
-      moment(this.dateOfDeath).format('YYYY-MM-DD') : '';
+    return lifespanDateFormater.dateToString(this.dateOfDeath);
   });
 
 AuthorSchema

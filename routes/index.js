@@ -1,11 +1,9 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
+require('./author');
+require('./book');
+require('./bookInstance');
+require('./genre');
+require('./catalog');
+require('./root');
 
-/* GET home page. */
-router.get('/', (req, res) => {
-  res.redirect('/catalog');
-});
-
-module.exports = router;
